@@ -21,7 +21,7 @@ type LoginResponse = {
 
 export const userApi = createApi({
   reducerPath: 'userApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/',
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://inventory-system-backend-ec9l.onrender.com/api/',
             prepareHeaders: (headers, { getState }) => {
         const token = (getState() as RootState).auth.token;
         if (token) {
