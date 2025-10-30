@@ -90,7 +90,7 @@ export const exportToPDF = async (
     alternateRowStyles: { fillColor: [245, 245, 245] },
     margin: { left: 40, right: 40 },
     didDrawPage: () => {
-      const pageCount = doc.internal.getNumberOfPages();
+      const pageCount = doc.getNumberOfPages();
       doc.setFontSize(8);
       doc.text(
         `Page ${pageCount}`,
