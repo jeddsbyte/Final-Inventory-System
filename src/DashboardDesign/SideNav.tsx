@@ -8,7 +8,6 @@ import {
   FileText,
   ShoppingCart,
   Receipt,
-  Settings,
   User,
   Menu,
   X,
@@ -52,7 +51,6 @@ export const SideNav = () => {
       { path: "/dashboard/purchases", icon: ShoppingCart, label: "Purchase Orders", color: "#06B6D4", group: "orders" },
       { path: "/dashboard/sales", icon: Receipt, label: "Sales Orders", color: "#D946EF", group: "orders" },
       { path: "/dashboard/reports", icon: FileText, label: "Reports", color: "#84CC16", group: "reports" },
-      { path: "/dashboard/settings", icon: Settings, label: "Settings", color: "#6B7280", group: "settings" },
       { path: "/dashboard/profile", icon: User, label: "Profile", color: "#F97316", group: "settings" },
     ],
     []
