@@ -1,99 +1,93 @@
-
-import './App.css'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import {Home} from './Pages/Home';
-import { Login } from './Pages/Login';
-import Error from './Pages/Error';
-import { Dashboard } from './Components/Dashboard/Dashboard';
-import { Contact } from './Pages/Contact';
-import { Analytics } from './Components/Dashboard/Analytics';
-import { Reports } from './Components/Dashboard/Reports';
-import { Products } from './Components/Dashboard/Products';
-import { Suppliers } from './Components/Dashboard/Suppliers';
-import { Categories } from './Components/Dashboard/Categories';
-import { PurchaseOrders } from './Components/Dashboard/PurchaseOrders';
-import { SalesOrders } from './Components/Dashboard/SalesOrders';
-import { Features } from './Pages/Features';
-import { Register } from './Pages/Register';
-import ProtectedRoute from './Components/ProtectedRoute';
+import "./App.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Home } from "./Pages/Home";
+import { Login } from "./Pages/Login";
+import Error from "./Pages/Error";
+import { Dashboard } from "./Components/Dashboard/Dashboard";
+import { Contact } from "./Pages/Contact";
+import { Analytics } from "./Components/Dashboard/Analytics";
+import Reports from "./Components/Dashboard/Reports";
+import { Products } from "./Components/Dashboard/Products";
+import { Suppliers } from "./Components/Dashboard/Suppliers";
+import { Categories } from "./Components/Dashboard/Categories";
+import { PurchaseOrders } from "./Components/Dashboard/PurchaseOrders";
+import { SalesOrders } from "./Components/Dashboard/SalesOrders";
+import { Features } from "./Pages/Features";
+import { Register } from "./Pages/Register";
+import ProtectedRoute from "./Components/ProtectedRoute";
 
 function App() {
-
-   const router = createBrowserRouter([
-  {
+  const router = createBrowserRouter([
+    {
       path: "/",
-      element: <Home/>,
+      element: <Home />,
       errorElement: <Error />,
     },
 
-      {
+    {
       path: "/contact",
-      element: <Contact/>,
+      element: <Contact />,
       errorElement: <Error />,
     },
 
-        {
+    {
       path: "/features",
-      element: <Features/>,
+      element: <Features />,
       errorElement: <Error />,
     },
 
-    
-      {
+    {
       path: "/login",
-      element: <Login/>,
+      element: <Login />,
       errorElement: <Error />,
     },
     {
       path: "/register",
-      element: <Register/>,
-      errorElement: <Error />,  
+      element: <Register />,
+      errorElement: <Error />,
     },
 
-      {
+    {
       path: "/dashboard",
       element: (
-    <ProtectedRoute >   
+        <ProtectedRoute>
           <Dashboard />
-    </ProtectedRoute>
-      
+        </ProtectedRoute>
       ),
       errorElement: <Error />,
-        children: [
-          {
+      children: [
+        {
           path: "analytics",
-          element: <Analytics/>,
+          element: <Analytics />,
         },
-         {
+        {
           path: "reports",
-          element: <Reports/>,
+          element: <Reports />,
         },
-         {
+        {
           path: "products",
-          element: <Products/>,
+          element: <Products />,
         },
-         {
+        {
           path: "suppliers",
-          element: <Suppliers/>,
+          element: <Suppliers />,
         },
-         {
+        {
           path: "categories",
-          element: <Categories/>,
+          element: <Categories />,
         },
-         {
+        {
           path: "purchases",
-          element: <PurchaseOrders/>,
+          element: <PurchaseOrders />,
         },
-         {
+        {
           path: "sales",
-          element: <SalesOrders/>,
+          element: <SalesOrders />,
         },
-        
-        ]
+      ],
     },
-
-   ]);
- return <RouterProvider router={router} />;
+  ]);
+  return <RouterProvider router={router} />;
 }
 
-export default App
+export default App;
