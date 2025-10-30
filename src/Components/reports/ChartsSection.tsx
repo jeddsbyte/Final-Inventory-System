@@ -33,6 +33,7 @@ interface Product {
 interface ChartData {
   name: string;
   products: number;
+  [key: string]: string | number;
 }
 
 const COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6"];

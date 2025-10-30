@@ -58,17 +58,17 @@ const TablesSection: React.FC<TablesSectionProps> = ({
   useEffect(() => {
     let result = [...products];
 
-    if (filters.category_id) {
-      result = result.filter(
-        (item) => item.category_id === parseInt(filters.category_id)
-      );
-    }
+if (filters.category_id) {
+  result = result.filter(
+    (item) => item.category_id === parseInt(filters.category_id ?? "")
+  );
+}
 
-    if (filters.supplier_id) {
-      result = result.filter(
-        (item) => item.supplier_id === parseInt(filters.supplier_id)
-      );
-    }
+if (filters.supplier_id) {
+  result = result.filter(
+    (item) => item.supplier_id === parseInt(filters.supplier_id ?? "")
+  );
+}
 
     setFilteredData(result);
     if (onDataReady) onDataReady(result);
