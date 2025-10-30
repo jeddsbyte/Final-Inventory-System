@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/Components/ui/card";
 import {
   ResponsiveContainer,
   BarChart,
@@ -12,7 +12,7 @@ import {
   Cell,
   Legend,
 } from "recharts";
-import Loader from "@/components/reports/Loader";
+import Loader from "@/Components/reports/Loader";
 
 interface Category {
   id: number;

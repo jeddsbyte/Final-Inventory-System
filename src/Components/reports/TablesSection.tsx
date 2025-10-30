@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 
 interface TablesSectionProps {
   filters: {
-    category_id: string;
-    supplier_id: string;
+    category_id?: string;
+    supplier_id?: string;
   };
   onDataReady?: (data: Product[]) => void;
 }
