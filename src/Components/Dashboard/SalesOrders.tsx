@@ -38,7 +38,7 @@ export const SalesOrders: React.FC = () => {
   // Fetch distinct item names
   useEffect(() => {
     axios
-      .get("http://localhost:5000/items/names")
+      .get("https://inventory-xtlc.onrender.com/items/names")
       .then((res) => setItemNames(res.data.map((it: any) => it.name)))
       .catch((err) => console.error("Error fetching item names:", err));
   }, []);
@@ -51,7 +51,7 @@ export const SalesOrders: React.FC = () => {
 
     if (name) {
       axios
-        .get(`http://localhost:5000/items/categories/${name}`)
+        .get(`https://inventory-xtlc.onrender.com/items/categories/${name}`)
         .then((res) => setCategories(res.data))
         .catch((err) => console.error("Error fetching categories:", err));
     } else {
@@ -124,7 +124,7 @@ export const SalesOrders: React.FC = () => {
 
     setIsSubmitting(true);
     try {
-      await axios.post("http://localhost:5000/sales", {
+      await axios.post("https://inventory-xtlc.onrender.com/sales", {
         items: saleItems,
         final_total: finalTotal,
       });
