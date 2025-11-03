@@ -44,7 +44,7 @@ export const PurchaseOrders: React.FC = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:5000/purchase", {
+      const response = await fetch("https://inventory-xtlc.onrender.com/purchase", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
