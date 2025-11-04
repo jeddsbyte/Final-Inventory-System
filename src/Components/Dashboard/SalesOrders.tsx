@@ -44,20 +44,48 @@ export const SalesOrders: React.FC = () => {
   }, []);
 
   // When item name changes, fetch its categories
-  const handleItemSelect = (name: string) => {
-    setSelectedItemName(name);
-    setSelectedCategory("");
-    setPricePerUnit(0);
+const handleItemSelect = async (name: string) => {
+  setSelectedItemName(name);
+  setSelectedCategory("");
+  setPricePerUnit(0);
+  setCategories([]);
 
-    if (name) {
-      axios
-        .get(`https://inventory-xtlc.onrender.com/items/categories/${name}`)
-        .then((res) => setCategories(res.data))
-        .catch((err) => console.error("Error fetching categories:", err));
+  if (!name) return;
+
+  try {
+    setLoadingCategories(true);
+    const res = await axios.get(
+      `https://inventory-xtlc.onrender.com/items/categories/${name}`
+    );
+
+    const data = res.data;
+
+    // ✅ Handle the single-object + newline-separated category case
+    if (data && typeof data.category === "string") {
+      const catList = data.category
+        .split("\n")
+        .map((c: string) => c.trim())
+        .filter((c: string) => c.length > 0);
+
+      const categoryObjects = catList.map((cat: string, i: number) => ({
+        id: i,
+        name: data.name,
+        category: cat,
+        price_per_unit: data.price_per_unit,
+      }));
+
+      setCategories(categoryObjects);
+    } else if (Array.isArray(data)) {
+      setCategories(data);
     } else {
       setCategories([]);
     }
-  };
+  } catch (err) {
+    console.error("Error fetching categories:", err);
+  } finally {
+    setLoadingCategories(false);
+  }
+};
 
   // When category changes, update price automatically
   const handleCategorySelect = (category: string) => {
