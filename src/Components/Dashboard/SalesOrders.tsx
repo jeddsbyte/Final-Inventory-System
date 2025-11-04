@@ -28,6 +28,7 @@ export const SalesOrders: React.FC = () => {
   const [saleItems, setSaleItems] = useState<SaleItem[]>([]);
   const [finalTotal, setFinalTotal] = useState<number>(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loadingCategories, setLoadingCategories]=useState(false);
 
   // Form fields
   const [selectedItemName, setSelectedItemName] = useState<string>("");
