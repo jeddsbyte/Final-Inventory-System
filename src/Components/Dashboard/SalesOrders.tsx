@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useTheme } from "../../DashboardDesign/ThemeContext";
@@ -28,7 +27,7 @@ export const SalesOrders: React.FC = () => {
   const [saleItems, setSaleItems] = useState<SaleItem[]>([]);
   const [finalTotal, setFinalTotal] = useState<number>(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [loadingCategories, setLoadingCategories]=useState(false);
+  const [loadingCategories, setLoadingCategories] = useState(false); // Added missing state
 
   // Form fields
   const [selectedItemName, setSelectedItemName] = useState<string>("");
@@ -44,49 +43,49 @@ export const SalesOrders: React.FC = () => {
       .catch((err) => console.error("Error fetching item names:", err));
   }, []);
 
-  // When item name changes, fetch its categories
-const handleItemSelect = async (name: string) => {
-  setSelectedItemName(name);
-  setSelectedCategory("");
-  setPricePerUnit(0);
-  setCategories([]);
+  // When item name changes, fetch its categories - FIXED VERSION
+  const handleItemSelect = async (name: string) => {
+    setSelectedItemName(name);
+    setSelectedCategory("");
+    setPricePerUnit(0);
+    setCategories([]);
 
-  if (!name) return;
+    if (!name) return;
 
-  try {
-    setLoadingCategories(true);
-    const res = await axios.get(
-      `https://inventory-xtlc.onrender.com/items/categories/${name}`
-    );
+    try {
+      setLoadingCategories(true);
+      const res = await axios.get(
+        `https://inventory-xtlc.onrender.com/items/categories/${name}`
+      );
 
-    const data = res.data;
+      const data = res.data;
 
-    // ✅ Handle the single-object + newline-separated category case
-    if (data && typeof data.category === "string") {
-      const catList = data.category
-        .split("\n")
-        .map((c: string) => c.trim())
-        .filter((c: string) => c.length > 0);
+      // ✅ Handle the single-object + newline-separated category case
+      if (data && typeof data.category === "string") {
+        const catList = data.category
+          .split("\n")
+          .map((c: string) => c.trim())
+          .filter((c: string) => c.length > 0);
 
-      const categoryObjects = catList.map((cat: string, i: number) => ({
-        id: i,
-        name: data.name,
-        category: cat,
-        price_per_unit: data.price_per_unit,
-      }));
+        const categoryObjects = catList.map((cat: string, i: number) => ({
+          id: i,
+          name: data.name,
+          category: cat,
+          price_per_unit: data.price_per_unit,
+        }));
 
-      setCategories(categoryObjects);
-    } else if (Array.isArray(data)) {
-      setCategories(data);
-    } else {
-      setCategories([]);
+        setCategories(categoryObjects);
+      } else if (Array.isArray(data)) {
+        setCategories(data);
+      } else {
+        setCategories([]);
+      }
+    } catch (err) {
+      console.error("Error fetching categories:", err);
+    } finally {
+      setLoadingCategories(false);
     }
-  } catch (err) {
-    console.error("Error fetching categories:", err);
-  } finally {
-    setLoadingCategories(false);
-  }
-};
+  };
 
   // When category changes, update price automatically
   const handleCategorySelect = (category: string) => {
@@ -255,15 +254,19 @@ const handleItemSelect = async (name: string) => {
                 <select
                   value={selectedCategory}
                   onChange={(e) => handleCategorySelect(e.target.value)}
-                  disabled={!selectedItemName}
+                  disabled={!selectedItemName || loadingCategories}
                   className={inputClasses}
                 >
                   <option value="">Select category</option>
-                  {categories.map((c) => (
-                    <option key={c.id} value={c.category}>
-                      {c.category}
-                    </option>
-                  ))}
+                  {loadingCategories ? (
+                    <option value="" disabled>Loading categories...</option>
+                  ) : (
+                    categories.map((c) => (
+                      <option key={c.id} value={c.category}>
+                        {c.category}
+                      </option>
+                    ))
+                  )}
                 </select>
               </div>
 
@@ -307,12 +310,13 @@ const handleItemSelect = async (name: string) => {
               {/* Add Button */}
               <button
                 onClick={handleAddToBasket}
-                className="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl transition-all duration-300 font-medium shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/40 transform hover:scale-[1.02]"
+                disabled={loadingCategories}
+                className="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl transition-all duration-300 font-medium shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/40 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                 </svg>
-                Add to Basket
+                {loadingCategories ? "Loading..." : "Add to Basket"}
               </button>
             </div>
           </div>
